@@ -11297,12 +11297,13 @@ function run() {
             const repo = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo;
             const description = `Domain template created by Mailgun Template Action from ${repo}`;
             const comment = `Template created with ${hash} from ${repo}`;
-            const mg = mailgun.client({ username: "api", key });
+            const mg = yield mailgun.client({ username: "api", key });
             const html = yield fs__WEBPACK_IMPORTED_MODULE_4__.promises.readFile(file, { encoding: "utf-8" });
             if (!html) {
                 _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template`);
             }
             const checkIfExist = yield mg.domains.domainTemplates.get(domain, template);
+            console.log("checkIfExist", checkIfExist);
             if (!checkIfExist) {
                 try {
                     yield mg.domains.domainTemplates.create(domain, {

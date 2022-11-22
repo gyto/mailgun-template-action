@@ -18,7 +18,7 @@ async function run() {
 		const description = `Domain template created by Mailgun Template Action from ${repo}`;
 		const comment = `Template created with ${hash} from ${repo}`
 
-		const mg = mailgun.client({ username: "api", key });
+		const mg = await mailgun.client({ username: "api", key });
 
 		const html = await fs.readFile(file, { encoding: "utf-8"});
 
@@ -27,6 +27,7 @@ async function run() {
 		}
 
 		const checkIfExist = await mg.domains.domainTemplates.get(domain, template);
+		console.log("checkIfExist", checkIfExist);
 
 		if (!checkIfExist) {
 			try {
