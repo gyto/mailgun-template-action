@@ -1,6 +1,6 @@
-# Hello world javascript action
+# Mailgun Template Action
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+Mailgun Template creation and version management
 
 ## Inputs
 
