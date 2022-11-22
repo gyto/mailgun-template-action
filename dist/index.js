@@ -11282,7 +11282,7 @@ function manageTemplates() {
         const key = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-api-key", { required: true });
         const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain", { required: true });
         const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template", { required: true });
-        const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("file", { required: true });
+        const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("html-file", { required: true });
         console.log("1", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default()));
         console.log("2", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context));
         const hash = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.sha);

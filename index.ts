@@ -11,7 +11,7 @@ function manageTemplates() {
 		const key: string = core.getInput("mailgun-api-key", { required: true });
 		const domain: string = core.getInput("mailgun-domain", { required: true });
 		const template: string = core.getInput("mailgun-template", { required: true });
-		const file: string = core.getInput("file", { required: true });
+		const file: string = core.getInput("html-file", { required: true });
 		console.log("1", github);
 		console.log("2", github.context);
 		const hash = github.context.sha;
