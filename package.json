@@ -1,0 +1,26 @@
+{
+  "name": "mailgun-template-action",
+  "version": "1.0.0",
+  "description": "Mailgun Template creation and version management",
+  "main": "index.ts",
+  "author": "Roman Kovtun",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "actions"
+  ],
+  "scripts": {
+    "build": "ncc build index.ts"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "form-data": "^4.0.0",
+    "mailgun.js": "^8.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@vercel/ncc": "^0.34.0",
+    "typescript": "^4.9.3"
+  }
+}

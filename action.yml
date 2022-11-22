@@ -1,0 +1,21 @@
+name: "Mailgun Template Action"
+description: "Mailgun Template creation and version management"
+runs:
+  using: "node16"
+  main: "dist/index.js"
+branding:
+  icon: mail
+  color: "red"
+inputs:
+  html-file:
+    description: "Path to file containing the HTML email"
+    required: true
+  mailgun-api-key:
+    description: "Mailgun Api Key"
+    required: true
+  mailgun-domain:
+    description: "Mailgun domain is used for templates"
+    required: true
+  mailgun-template:
+    description: "Mailgun template name"
+    required: true
