@@ -20,12 +20,12 @@ function manageTemplates() {
 
 		const mg = mailgun.client({ username: "api", key });
 
-		fs.readFile(file, { encoding: "utf-8"}, async function (error, html) {
+		fs.readFile(file, { encoding: "utf-8"}, function (error, html) {
 			if (!error) {
 				const checkIfExist = mg.domains.domainTemplates.get(domain, template);
 				if (!checkIfExist) {
 					try {
-						await mg.domains.domainTemplates.create(domain, {
+						return mg.domains.domainTemplates.create(domain, {
 							name: template,
 							description,
 							template: html,
@@ -37,7 +37,7 @@ function manageTemplates() {
 					}
 				} else {
 					try {
-						await mg.domains.domainTemplates.createVersion(domain, template, {
+						return mg.domains.domainTemplates.createVersion(domain, template, {
 							template: html,
 							tag: hash,
 							comment,
