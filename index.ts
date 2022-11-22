@@ -8,10 +8,12 @@ const mailgun = new Mailgun(formData);
 
 function manageTemplates() {
 	try {
-		const key: string = core.getInput("mailgun-api-key");
-		const domain: string = core.getInput("mailgun-domain");
-		const template: string = core.getInput("mailgun-template");
-		const file: string = core.getInput("file");
+		const key: string = core.getInput("mailgun-api-key", { required: true });
+		const domain: string = core.getInput("mailgun-domain", { required: true });
+		const template: string = core.getInput("mailgun-template", { required: true });
+		const file: string = core.getInput("file", { required: true });
+		console.log("1", github);
+		console.log("2", github.context);
 		const hash = github.context.sha;
 		const repo = github.context.repo.repo;
 
