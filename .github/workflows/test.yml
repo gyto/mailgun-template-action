@@ -1,0 +1,23 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: run action
+        id: run_action
+        uses: ./
+        with:
+          mailgun-api-key: ${{ secrets.MAILGUN_API_KEY }}
+          mailgun-domain: ${{ secrets.MAILGUN_DOMAIN }}
+          mailgun-template: "test"
+          html-file: "./test.html"
