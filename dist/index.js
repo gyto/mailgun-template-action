@@ -11277,62 +11277,59 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 const mailgun = new (mailgun_js__WEBPACK_IMPORTED_MODULE_3___default())((form_data__WEBPACK_IMPORTED_MODULE_2___default()));
-function manageTemplates() {
-    try {
-        const key = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-api-key", { required: true });
-        const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain", { required: true });
-        const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template", { required: true });
-        const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("html-file", { required: true });
-        console.log("1", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default()));
-        console.log("2", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context));
-        const hash = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.sha);
-        const repo = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo);
-        const description = `Domain template created by Mailgun Template Action from ${repo}`;
-        const comment = `Template created with ${hash} from ${repo}`;
-        const mg = mailgun.client({ username: "api", key });
-        fs__WEBPACK_IMPORTED_MODULE_4___default().readFile(file, { encoding: "utf-8" }, function (error, html) {
-            if (!error) {
-                const checkIfExist = mg.domains.domainTemplates.get(domain, template);
-                if (!checkIfExist) {
-                    try {
-                        return mg.domains.domainTemplates.create(domain, {
-                            name: template,
-                            description,
-                            template: html,
-                            tag: hash,
-                            comment,
-                        });
-                    }
-                    catch (error) {
-                        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
-                    }
+try {
+    const key = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-api-key", { required: true });
+    const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain", { required: true });
+    const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template", { required: true });
+    const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("html-file", { required: true });
+    console.log("1", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default()));
+    console.log("2", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context));
+    const hash = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.sha);
+    const repo = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo);
+    const description = `Domain template created by Mailgun Template Action from ${repo}`;
+    const comment = `Template created with ${hash} from ${repo}`;
+    const mg = mailgun.client({ username: "api", key });
+    fs__WEBPACK_IMPORTED_MODULE_4___default().readFile(file, { encoding: "utf-8" }, function (error, html) {
+        if (!error) {
+            const checkIfExist = mg.domains.domainTemplates.get(domain, template);
+            if (!checkIfExist) {
+                try {
+                    return mg.domains.domainTemplates.create(domain, {
+                        name: template,
+                        description,
+                        template: html,
+                        tag: hash,
+                        comment,
+                    });
                 }
-                else {
-                    try {
-                        return mg.domains.domainTemplates.createVersion(domain, template, {
-                            template: html,
-                            tag: hash,
-                            comment,
-                            // @ts-ignore
-                            active: "yes",
-                        });
-                    }
-                    catch (error) {
-                        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
-                    }
+                catch (error) {
+                    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
                 }
             }
             else {
-                console.error(`Error: ${file} was not found`);
-                throw error;
+                try {
+                    return mg.domains.domainTemplates.createVersion(domain, template, {
+                        template: html,
+                        tag: hash,
+                        comment,
+                        // @ts-ignore
+                        active: "yes",
+                    });
+                }
+                catch (error) {
+                    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
+                }
             }
-        });
-    }
-    catch (error) {
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
-    }
+        }
+        else {
+            console.error(`Error: ${file} was not found`);
+            throw error;
+        }
+    });
 }
-manageTemplates();
+catch (error) {
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
+}
 
 })();
 
