@@ -11279,10 +11279,12 @@ __nccwpck_require__.r(__webpack_exports__);
 const mailgun = new (mailgun_js__WEBPACK_IMPORTED_MODULE_3___default())((form_data__WEBPACK_IMPORTED_MODULE_2___default()));
 function manageTemplates() {
     try {
-        const key = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-api-key");
-        const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain");
-        const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template");
-        const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("file");
+        const key = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-api-key", { required: true });
+        const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain", { required: true });
+        const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template", { required: true });
+        const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("file", { required: true });
+        console.log("1", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default()));
+        console.log("2", (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context));
         const hash = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.sha);
         const repo = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo);
         const description = `Domain template created by Mailgun Template Action from ${repo}`;
