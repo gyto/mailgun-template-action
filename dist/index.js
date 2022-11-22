@@ -11293,50 +11293,44 @@ function run() {
             const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain", { required: true });
             const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template", { required: true });
             const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("html-file", { required: true });
-            console.log("1", _actions_github__WEBPACK_IMPORTED_MODULE_1__);
-            console.log("2", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context);
             const hash = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.sha;
             const repo = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo;
             const description = `Domain template created by Mailgun Template Action from ${repo}`;
             const comment = `Template created with ${hash} from ${repo}`;
             const mg = mailgun.client({ username: "api", key });
-            fs__WEBPACK_IMPORTED_MODULE_4___default().readFile(file, { encoding: "utf-8" }, function (error, html) {
-                if (!error) {
-                    const checkIfExist = mg.domains.domainTemplates.get(domain, template);
-                    if (!checkIfExist) {
-                        try {
-                            return mg.domains.domainTemplates.create(domain, {
-                                name: template,
-                                description,
-                                template: html,
-                                tag: hash,
-                                comment,
-                            });
-                        }
-                        catch (error) {
-                            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
-                        }
-                    }
-                    else {
-                        try {
-                            return mg.domains.domainTemplates.createVersion(domain, template, {
-                                template: html,
-                                tag: hash,
-                                comment,
-                                // @ts-ignore
-                                active: "yes",
-                            });
-                        }
-                        catch (error) {
-                            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
-                        }
-                    }
+            const html = yield fs__WEBPACK_IMPORTED_MODULE_4__.promises.readFile(file, { encoding: "utf-8" });
+            if (!html) {
+                _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template`);
+            }
+            const checkIfExist = yield mg.domains.domainTemplates.get(domain, template);
+            if (!checkIfExist) {
+                try {
+                    yield mg.domains.domainTemplates.create(domain, {
+                        name: template,
+                        description,
+                        template: html,
+                        tag: hash,
+                        comment,
+                    });
                 }
-                else {
-                    console.error(`Error: ${file} was not found`);
-                    throw error;
+                catch (error) {
+                    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
                 }
-            });
+            }
+            else {
+                try {
+                    yield mg.domains.domainTemplates.createVersion(domain, template, {
+                        template: html,
+                        tag: hash,
+                        comment,
+                        // @ts-ignore
+                        active: "yes",
+                    });
+                }
+                catch (error) {
+                    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
+                }
+            }
         }
         catch (error) {
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
