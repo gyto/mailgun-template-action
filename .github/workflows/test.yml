@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: run action
+      - name: Run Action
         id: run_action
         uses: ./
         with:

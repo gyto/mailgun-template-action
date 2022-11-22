@@ -11271,15 +11271,6 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var mailgun_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(mailgun_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(7147);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_4__);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 
 
 
@@ -11298,43 +11289,41 @@ function manageTemplates() {
         const comment = `Template created with ${hash} from ${repo}`;
         const mg = mailgun.client({ username: "api", key });
         fs__WEBPACK_IMPORTED_MODULE_4___default().readFile(file, { encoding: "utf-8" }, function (error, html) {
-            return __awaiter(this, void 0, void 0, function* () {
-                if (!error) {
-                    const checkIfExist = mg.domains.domainTemplates.get(domain, template);
-                    if (!checkIfExist) {
-                        try {
-                            yield mg.domains.domainTemplates.create(domain, {
-                                name: template,
-                                description,
-                                template: html,
-                                tag: hash,
-                                comment,
-                            });
-                        }
-                        catch (error) {
-                            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
-                        }
+            if (!error) {
+                const checkIfExist = mg.domains.domainTemplates.get(domain, template);
+                if (!checkIfExist) {
+                    try {
+                        return mg.domains.domainTemplates.create(domain, {
+                            name: template,
+                            description,
+                            template: html,
+                            tag: hash,
+                            comment,
+                        });
                     }
-                    else {
-                        try {
-                            yield mg.domains.domainTemplates.createVersion(domain, template, {
-                                template: html,
-                                tag: hash,
-                                comment,
-                                // @ts-ignore
-                                active: "yes",
-                            });
-                        }
-                        catch (error) {
-                            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
-                        }
+                    catch (error) {
+                        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
                     }
                 }
                 else {
-                    console.error(`Error: ${file} was not found`);
-                    throw error;
+                    try {
+                        return mg.domains.domainTemplates.createVersion(domain, template, {
+                            template: html,
+                            tag: hash,
+                            comment,
+                            // @ts-ignore
+                            active: "yes",
+                        });
+                    }
+                    catch (error) {
+                        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
+                    }
                 }
-            });
+            }
+            else {
+                console.error(`Error: ${file} was not found`);
+                throw error;
+            }
         });
     }
     catch (error) {
