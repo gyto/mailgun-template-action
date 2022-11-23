@@ -34,7 +34,7 @@ try {
 									comment,
 								})
 							} catch (error) {
-								core.setFailed(`Cannot create template: ${error.message}`)
+								core.setFailed(`Cannot create template: ${error.details}`)
 							}
 						} else {
 							core.setFailed(`Cannot read domain templates ${error.message}`);

@@ -11313,7 +11313,7 @@ try {
                                 });
                             }
                             catch (error) {
-                                _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.message}`);
+                                _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.details}`);
                             }
                         }
                         else {
