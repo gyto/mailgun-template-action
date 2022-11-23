@@ -21,36 +21,35 @@ try {
 
 	fs.readFile(file, { encoding: "utf-8"}, async function (error, html) {
 		if (!error) {
-			const checkIfExist = await mg.domains.domainTemplates.get(domain, template)
-				.catch((error) => {
-					console.log("error.status", error, error.status);
+			try {
+				await mg.domains.domainTemplates.get(domain, template)
+					.catch(async (error) => {
+						if (error.status === 404) {
+							try {
+								await mg.domains.domainTemplates.create(domain, {
+									name: template,
+									description,
+									template: html,
+									tag: hash,
+									comment,
+								})
+							} catch (error) {
+								core.setFailed(`Cannot create template: ${error.message}`)
+							}
+						} else {
+							core.setFailed(`Cannot read domain templates ${error.message}`);
+						}
+					});
 
-				});
-			console.log("checkIfExist", checkIfExist);
-			if (!checkIfExist) {
-				try {
-					await mg.domains.domainTemplates.create(domain, {
-						name: template,
-						description,
-						template: html,
-						tag: hash,
-						comment,
-					})
-				} catch (error) {
-					core.setFailed(`Cannot create template: ${error.message}`)
-				}
-			} else {
-				try {
-					await mg.domains.domainTemplates.createVersion(domain, template, {
-						template: html,
-						tag: hash,
-						comment,
-						// @ts-ignore
-						active: "yes",
-					})
-				} catch (error) {
-					core.setFailed(`Cannot update template: ${error.message}`)
-				}
+				await mg.domains.domainTemplates.createVersion(domain, template, {
+					template: html,
+					tag: hash,
+					comment,
+					// @ts-ignore
+					active: "yes",
+				})
+			} catch (error) {
+				core.setFailed(`Cannot update template: ${error.message}`)
 			}
 		} else {
 			console.error(`Error: ${file} was not found`);
