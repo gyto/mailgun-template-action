@@ -32,7 +32,9 @@ try {
 									template: html,
 									tag: hash,
 									comment,
-								})
+								});
+
+								return core.setOutput("Result", "Success, template is created");
 							} catch (error) {
 								core.setFailed(`Cannot create template: ${error.details}`)
 							}
@@ -47,7 +49,9 @@ try {
 					comment,
 					// @ts-ignore
 					active: "yes",
-				})
+				});
+
+				return core.setOutput("Result", "Success, template is updated");
 			} catch (error) {
 				core.setFailed(`Cannot update template: ${error.message}`)
 			}

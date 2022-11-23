@@ -11311,6 +11311,7 @@ try {
                                     tag: hash,
                                     comment,
                                 });
+                                return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", "Success, template is created");
                             }
                             catch (error) {
                                 _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot create template: ${error.details}`);
@@ -11327,6 +11328,7 @@ try {
                         // @ts-ignore
                         active: "yes",
                     });
+                    return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", "Success, template is updated");
                 }
                 catch (error) {
                     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot update template: ${error.message}`);
