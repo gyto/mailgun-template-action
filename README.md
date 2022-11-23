@@ -15,7 +15,7 @@ Mailgun Template creation and version management
 
 ```yaml
 - name: "Create password reset template"
-  uses: gyto/hello-world-javascript-action@v1
+  uses: gyto/mailgun-template-action@v2
   with:
     html-file: './build/register.html'
     mailgun-api-key: ${{ secrets.MAILGUN_KEY }}
