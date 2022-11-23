@@ -11,8 +11,6 @@ try {
 	const domain: string = core.getInput("mailgun-domain", { required: true });
 	const template: string = core.getInput("mailgun-template", { required: true });
 	const file: string = core.getInput("html-file", { required: true });
-	console.log("1", github);
-	console.log("2", github.context);
 	const hash = github.context.sha;
 	const repo = github.context.repo.repo;
 
@@ -23,7 +21,11 @@ try {
 
 	fs.readFile(file, { encoding: "utf-8"}, async function (error, html) {
 		if (!error) {
-			const checkIfExist = await mg.domains.domainTemplates.get(domain, template);
+			const checkIfExist = await mg.domains.domainTemplates.get(domain, template)
+				.catch((error) => {
+					console.log("error.status", error, error.status);
+
+				});
 			console.log("checkIfExist", checkIfExist);
 			if (!checkIfExist) {
 				try {
@@ -56,5 +58,5 @@ try {
 		}
 	})
 } catch (error) {
-	core.setFailed(error.message);
+	core.setFailed(`Error in try catch ${error.message}`);
 }

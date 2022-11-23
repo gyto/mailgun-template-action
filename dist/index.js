@@ -11291,8 +11291,6 @@ try {
     const domain = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-domain", { required: true });
     const template = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("mailgun-template", { required: true });
     const file = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("html-file", { required: true });
-    console.log("1", _actions_github__WEBPACK_IMPORTED_MODULE_1__);
-    console.log("2", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context);
     const hash = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.sha;
     const repo = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo;
     const description = `Domain template created by Mailgun Template Action from ${repo}`;
@@ -11301,7 +11299,10 @@ try {
     fs__WEBPACK_IMPORTED_MODULE_4___default().readFile(file, { encoding: "utf-8" }, function (error, html) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!error) {
-                const checkIfExist = yield mg.domains.domainTemplates.get(domain, template);
+                const checkIfExist = yield mg.domains.domainTemplates.get(domain, template)
+                    .catch((error) => {
+                    console.log("error.status", error, error.status);
+                });
                 console.log("checkIfExist", checkIfExist);
                 if (!checkIfExist) {
                     try {
@@ -11340,7 +11341,7 @@ try {
     });
 }
 catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Error in try catch ${error.message}`);
 }
 
 })();
