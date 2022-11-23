@@ -1,6 +1,9 @@
 {
   "name": "mailgun-template-action",
-  "version": "1.0.0",
+  "version": "v2",
+  "repository": {
+    "url": "https://github.com/gyto/mailgun-template-action"
+  },
   "description": "Mailgun Template creation and version management",
   "main": "index.ts",
   "author": "Roman Kovtun",
