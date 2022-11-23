@@ -23,6 +23,15 @@ try {
     if (!error) {
       try {
         await mg.domains.domainTemplates.get(domain, template)
+          .then(async () => {
+            await mg.domains.domainTemplates.createVersion(domain, template, {
+              template: html,
+              tag: hash,
+              comment,
+              // @ts-ignore
+              active: "yes",
+            });
+          })
           .catch(async (error) => {
             if (error.status === 404) {
               try {
@@ -44,15 +53,6 @@ try {
               core.setFailed(`Cannot read domain templates ${error.message}`);
             }
           });
-
-        await mg.domains.domainTemplates.createVersion(domain, template, {
-          template: html,
-          tag: hash,
-          comment,
-          // @ts-ignore
-          active: "yes",
-        });
-
         return core.setOutput("Result", "Success, template is updated");
       } catch (error) {
         console.error(error);

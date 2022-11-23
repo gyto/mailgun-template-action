@@ -11301,6 +11301,15 @@ try {
             if (!error) {
                 try {
                     yield mg.domains.domainTemplates.get(domain, template)
+                        .then(() => __awaiter(this, void 0, void 0, function* () {
+                        yield mg.domains.domainTemplates.createVersion(domain, template, {
+                            template: html,
+                            tag: hash,
+                            comment,
+                            // @ts-ignore
+                            active: "yes",
+                        });
+                    }))
                         .catch((error) => __awaiter(this, void 0, void 0, function* () {
                         if (error.status === 404) {
                             try {
@@ -11323,13 +11332,6 @@ try {
                             _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot read domain templates ${error.message}`);
                         }
                     }));
-                    yield mg.domains.domainTemplates.createVersion(domain, template, {
-                        template: html,
-                        tag: hash,
-                        comment,
-                        // @ts-ignore
-                        active: "yes",
-                    });
                     return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", "Success, template is updated");
                 }
                 catch (error) {
