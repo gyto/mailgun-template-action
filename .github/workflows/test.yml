@@ -19,5 +19,5 @@ jobs:
         with:
           mailgun-api-key: ${{ secrets.MAILGUN_API_KEY }}
           mailgun-domain: ${{ secrets.MAILGUN_DOMAIN }}
-          mailgun-template: "test"
+          mailgun-template: "test-email"
           html-file: "./test.html"
