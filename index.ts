@@ -50,7 +50,27 @@ try {
               }
             } else {
               console.error(error);
-              core.setFailed(`Cannot read domain templates ${error.message}`);
+              if (error.status === 400 && error.details === "Max number of versions has been reached for template") {
+                try {
+                  const list = mg.domains.domainTemplates.listVersions(domain, template, { limit: 20 });
+                  const versions = list.template.versions.filter(version => version.active === false);
+                  await Promise.all(versions.map(async version =>
+                    await mg.domains.domainTemplates.destroyVersion(domain, template, version.tag)
+                  ));
+
+                  await mg.domains.domainTemplates.createVersion(domain, template, {
+                    template: html,
+                    tag: hash,
+                    comment,
+                    // @ts-ignore
+                    active: "yes",
+                  });
+                  return core.setOutput("Result", "Success, version is updated");
+                } catch (error) {
+                  return core.setFailed(`Cannot read template versions ${error.message}`);
+                }
+              }
+              return core.setFailed(`Cannot read domain templates ${error.message}`);
             }
           });
         return core.setOutput("Result", "Success, template is updated");

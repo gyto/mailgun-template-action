@@ -1,6 +1,6 @@
 {
   "name": "mailgun-template-action",
-  "version": "v2",
+  "version": "v3.2",
   "repository": {
     "url": "https://github.com/gyto/mailgun-template-action"
   },
