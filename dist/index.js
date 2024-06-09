@@ -11329,7 +11329,25 @@ try {
                         }
                         else {
                             console.error(error);
-                            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot read domain templates ${error.message}`);
+                            if (error.status === 400 && error.details === "Max number of versions has been reached for template") {
+                                try {
+                                    const list = yield mg.domains.domainTemplates.listVersions(domain, template, { limit: 20 });
+                                    const versions = list.template.versions.filter(version => version.active === false);
+                                    yield Promise.all(versions.map((version) => __awaiter(this, void 0, void 0, function* () { return yield mg.domains.domainTemplates.destroyVersion(domain, template, version.tag); })));
+                                    yield mg.domains.domainTemplates.createVersion(domain, template, {
+                                        template: html,
+                                        tag: hash,
+                                        comment,
+                                        // @ts-ignore
+                                        active: "yes",
+                                    });
+                                    return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", "Success, version is updated");
+                                }
+                                catch (error) {
+                                    return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot read template versions ${error.message}`);
+                                }
+                            }
+                            return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Cannot read domain templates ${error.message}`);
                         }
                     }));
                     return _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", "Success, template is updated");

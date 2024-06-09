@@ -52,7 +52,7 @@ try {
               console.error(error);
               if (error.status === 400 && error.details === "Max number of versions has been reached for template") {
                 try {
-                  const list = mg.domains.domainTemplates.listVersions(domain, template, { limit: 20 });
+                  const list = await mg.domains.domainTemplates.listVersions(domain, template, { limit: 20 });
                   const versions = list.template.versions.filter(version => version.active === false);
                   await Promise.all(versions.map(async version =>
                     await mg.domains.domainTemplates.destroyVersion(domain, template, version.tag)
